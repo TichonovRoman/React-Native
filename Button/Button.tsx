@@ -1,25 +1,36 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, StyleSheet, TouchableOpacityProps } from 'react-native';
 
+type ColorsVariantType = 'default' | 'error' | 'primary' | 'secondary'
+
 type iButtonPropsType = {
-    variant?: 'default' | 'error' | 'primary'
+    title: string
+    variant?: ColorsVariantType
 }
 
-export const IButton = ({variant, ...restProps}: iButtonPropsType & TouchableOpacityProps) => {
+const colors: {[key in ColorsVariantType]: string} = {
+    default: 'green',
+    error: 'red',
+    primary: 'blue',
+    secondary: 'black'
+}
 
-    let finalColor = '';
-    if (variant === 'error') {finalColor = 'red'};
-    if (variant === 'primary') {finalColor = 'blue'};
-    if (variant === 'default') {finalColor = 'green'};
+export const IButton = ({title, variant = 'default', ...restProps}: iButtonPropsType & TouchableOpacityProps) => {
+
+    // let finalColor = '';
+    // if (variant === 'error') {finalColor = 'red'};
+    // if (variant === 'primary') {finalColor = 'blue'};
+    // if (variant === 'default') {finalColor = 'green'};
 
     return (
         <>
          <TouchableOpacity 
+         style={[styles.button, {backgroundColor: colors[variant]}]} 
+         activeOpacity={0.4}
          {...restProps} 
-         style={[styles.button, {backgroundColor: finalColor}]} 
-         activeOpacity={0.4}>
+         >
             <Text style={styles.buttonText}>
-                Button
+                {title}
             </Text>
         </TouchableOpacity>   
         </>
@@ -30,14 +41,14 @@ export const IButton = ({variant, ...restProps}: iButtonPropsType & TouchableOpa
 const styles = StyleSheet.create({
        button: {
         marginTop: 6,
-        width: 90, 
+        width: 160, 
         height: 40, 
         backgroundColor: 'green', 
         alignItems: 'center', 
         justifyContent: 'center',
         borderRadius: 10
        },
-       buttonText: {
+      buttonText: {
         color: 'white',
         fontSize: 24
        }
